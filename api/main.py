@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from api.db import (
     metadata, database, engine, Post
 )
-from api import post, user
+from api import post, user, auth
 
 metadata.create_all(engine)
 
@@ -19,6 +19,6 @@ async def shutdown():
 
 app.include_router(post.router)
 app.include_router(user.router)
-
+app.include_router(auth.router)
 
 

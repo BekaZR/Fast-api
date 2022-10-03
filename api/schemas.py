@@ -16,3 +16,9 @@ class UserSchemaIn(BaseModel):
 class UserSchema(BaseModel):
     id: int
     username: str
+
+
+class LoginSchema(BaseModel):
+    username: str
+    password: str
+    
