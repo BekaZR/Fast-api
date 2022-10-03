@@ -54,3 +54,10 @@ async def put_post(id: int, post: PostSchema):
     await database.execute(query)
     return {**post.dict(), "id": id}
 
+
+@app.delete('/post/{id}/', status_code=status.HTTP_204_NO_CONTENT)
+async def delete_post(id: int):
+    query = Post.delete().where(id == Post.c.id)
+    await database.execute(query)
+    return {"messages": "Post deleted"}
+
