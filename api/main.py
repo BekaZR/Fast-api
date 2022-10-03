@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from api.db import (
     metadata, database, engine, Post
 )
@@ -33,6 +33,18 @@ async def create_post(post: PostSchema, ):
 async def get_post():
     query = Post.select()
     return await database.fetch_all(query)
+
+
+@app.get('/post/{id}/', response_model=PostSchema)
+async def retrive_post(id: int):
+    query = Post.select().where(id == Post.c.id)
+    post = await database.fetch_one(query=query)
+    
+    if not post:
+        HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
+    
+    return {**post}
+
 
 
 
