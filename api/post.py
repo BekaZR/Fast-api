@@ -24,7 +24,7 @@ async def get_post():
 
 
 @router.get('/post/{id}/', response_model=PostSchema)
-async def retrive_post(id: int):
+async def retrive_post(id: int,):
     query = Post.select().where(id == Post.c.id)
     post = await database.fetch_one(query=query)
     
