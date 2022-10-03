@@ -6,7 +6,9 @@ from api.db import (
 )
 from api.schemas import PostSchema
 
-router = APIRouter()
+router = APIRouter(
+    tags=['Post']
+)
 
 
 @router.post('/post/')
