@@ -11,7 +11,9 @@ from passlib.hash import pbkdf2_sha256
 
 
 
-router = APIRouter()
+router = APIRouter(
+    tags=['Users']
+)
 
 
 @router.post('/user/', response_model=UserSchema)
