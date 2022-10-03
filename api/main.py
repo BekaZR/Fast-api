@@ -46,5 +46,11 @@ async def retrive_post(id: int):
     return {**post}
 
 
-
+@app.put('/post/{id}/', response_model=PostSchema)
+async def put_post(id: int, post: PostSchema):
+    query = Post.update().where(id == Post.c.id).values(
+        title=post.title, description=post.description
+        )
+    await database.execute(query)
+    return {**post.dict(), "id": id}
 
