@@ -1,7 +1,10 @@
+from typing import List
 from fastapi import FastAPI
 from api.db import (
-    metadata, database, engine
+    metadata, database, engine, Post
 )
+from api.schemas import PostSchema
+
 
 metadata.create_all(engine)
 
@@ -18,7 +21,18 @@ async def shutdown():
     
 
 
-@app.get('/post/')
+@app.post('/post/')
+async def create_post(post: PostSchema, ):
+    query = Post.insert().values(title=post.title, description=post.description)
+    last_record_id = await database.execute(query)
+    
+    return {**post.dict(), 'id': last_record_id}
+
+
+@app.get('/post/', response_model = List[PostSchema])
 async def get_post():
-    return {"messages": "all post"}
+    query = Post.select()
+    return await database.fetch_all(query)
+
+
 
