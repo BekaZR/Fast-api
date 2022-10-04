@@ -1,12 +1,16 @@
 from fastapi import APIRouter
-from typing import List
-from fastapi import FastAPI, HTTPException, status
+from fastapi import HTTPException, status
+
 from api.db import (
-    metadata, database, engine, User
+    database, User
 )
-from api.schemas import LoginSchema, UserSchema, UserSchemaIn
+from api.schemas import LoginSchema
+from api.token import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+
 from passlib.hash import pbkdf2_sha256
-from pprint import pprint as print
+
+from datetime import timedelta
+
 
 router = APIRouter(
     tags=['Auth']
@@ -23,5 +27,10 @@ async def login(request: LoginSchema):
     if not pbkdf2_sha256.verify(request.password, user.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid passsword')
     
-    return user
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+    
 

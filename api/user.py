@@ -1,11 +1,11 @@
-from urllib.parse import uses_query
 from fastapi import APIRouter
-from typing import List
-from fastapi import FastAPI, HTTPException, status
+
 from api.db import (
-    metadata, database, engine, User
+    database, User
 )
 from api.schemas import UserSchema, UserSchemaIn
+
+from typing import List
 
 from passlib.hash import pbkdf2_sha256
 
