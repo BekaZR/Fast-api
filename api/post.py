@@ -1,10 +1,14 @@
 from fastapi import APIRouter
-from typing import List
-from fastapi import FastAPI, HTTPException, status
+
+from fastapi import HTTPException, status
+
 from api.db import (
-    metadata, database, engine, Post
+    database, Post
 )
 from api.schemas import PostSchema
+
+from typing import List
+
 
 router = APIRouter(
     tags=['Post']

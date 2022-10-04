@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+
 from api.db import (
-    metadata, database, engine, Post
+    metadata, database, engine
 )
 from api import post, user, auth
+
 
 metadata.create_all(engine)
 
